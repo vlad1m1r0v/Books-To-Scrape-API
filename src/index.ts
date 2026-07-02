@@ -5,6 +5,7 @@ import { chromium } from 'playwright';
 import scalarUI from '@scalar/fastify-api-reference';
 import swagger from '@fastify/swagger';
 import genresRoutes from './routes/genres.js';
+import booksRoutes from './routes/books.js';
 
 const fastify = Fastify({
   logger: true,
@@ -96,6 +97,7 @@ await fastify.register(scalarUI, {
 });
 
 await fastify.register(genresRoutes, { prefix: '/api' });
+await fastify.register(booksRoutes, { prefix: '/api' });
 
 fastify.get(
   '/health',
