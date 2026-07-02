@@ -87,7 +87,8 @@ await fastify.register(swagger, {
   },
 });
 
-await fastify.register(scalarUI as unknown as Parameters<typeof fastify.register>[0], {
+// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+await fastify.register(scalarUI, {
   routePrefix: '/docs',
   configuration: {
     spec: { url: '/docs/openapi.json' },

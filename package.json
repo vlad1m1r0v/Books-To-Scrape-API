@@ -11,6 +11,7 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint src --ext .ts",
     "format": "prettier --write src",
+    "format:check": "prettier --check src",
     "prepare": "husky"
   },
   "lint-staged": {

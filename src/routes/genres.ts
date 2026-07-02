@@ -1,22 +1,13 @@
-import type { FastifyPluginCallbackZod } from 'fastify-type-provider-zod';
-import type { FastifyInstance } from 'fastify';
+import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod';
 import type { Page } from 'playwright';
 import { BASE_URL } from '../config.js';
 import { zodToJsonSchema } from 'zod-to-json-schema';
 import { scrapeGenres } from '../services/scraper.js';
-import { z } from 'zod';
+import { GenresResponseSchema } from '../schemas/genres.js';
 
-const GenreSchema = z.object({
-  name: z.string(),
-  slug: z.string(),
-});
-
-const GenresResponseSchema = z.object({
-  genres: z.array(GenreSchema),
-});
-
-const genresRoutes: FastifyPluginCallbackZod = (fastify: FastifyInstance) => {
-  fastify.get(
+// eslint-disable-next-line @typescript-eslint/require-await
+const genresRoutes: FastifyPluginAsyncZod = async _fastify => {
+  _fastify.get(
     '/genres',
     {
       schema: {
@@ -24,7 +15,7 @@ const genresRoutes: FastifyPluginCallbackZod = (fastify: FastifyInstance) => {
       },
     },
     async () => {
-      const genres = await fastify.scrapePage(`${BASE_URL}/`, async (page: Page) => {
+      const genres = await _fastify.scrapePage(`${BASE_URL}/`, async (page: Page) => {
         return scrapeGenres(page);
       });
 

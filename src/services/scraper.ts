@@ -1,6 +1,7 @@
 import type { Page } from 'playwright';
+import type { Genre } from '../schemas/genres.js';
 
-export async function scrapeGenres(page: Page): Promise<{ name: string; slug: string }[]> {
+export async function scrapeGenres(page: Page): Promise<Genre[]> {
   const genreElements = await page.locator('.side_categories .nav-list > li > ul > li > a').all();
 
   const genres = await Promise.all(
