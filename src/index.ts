@@ -4,8 +4,10 @@ import type { Browser, Page } from 'playwright';
 import { chromium } from 'playwright';
 import scalarUI from '@scalar/fastify-api-reference';
 import swagger from '@fastify/swagger';
+import { zodToJsonSchema } from 'zod-to-json-schema';
 import genresRoutes from './routes/genres.js';
 import booksRoutes from './routes/books.js';
+import { HealthResponseSchema } from './schemas/health.js';
 
 const fastify = Fastify({
   logger: true,
@@ -103,15 +105,7 @@ fastify.get(
   '/health',
   {
     schema: {
-      response: {
-        200: {
-          type: 'object',
-          properties: {
-            status: { type: 'string' },
-            browser: { type: 'string' },
-          },
-        },
-      },
+      response: { 200: zodToJsonSchema(HealthResponseSchema) },
     },
   },
   () => {
